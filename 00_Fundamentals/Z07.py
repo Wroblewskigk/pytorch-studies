@@ -1,3 +1,8 @@
+"""
+Exercise 7: Perform a matrix multiplication on the tensors you created in 6 (again,
+you may have to adjust the shapes of one of the tensors).
+"""
+
 import torch
 
 # noinspection DuplicatedCode

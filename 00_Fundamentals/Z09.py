@@ -1,3 +1,7 @@
+"""
+Exercise 9: Find the maximum and minimum index values of the output of 7.
+"""
+
 import torch
 
 print(torch.cuda.is_available())

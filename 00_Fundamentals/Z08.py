@@ -1,3 +1,7 @@
+"""
+Exercise 8: Find the maximum and minimum values of the output of 7.
+"""
+
 import torch
 
 # noinspection DuplicatedCode

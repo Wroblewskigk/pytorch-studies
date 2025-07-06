@@ -1,3 +1,10 @@
+"""
+Exercise 10: Make a random tensor with shape (1, 1, 1, 10) and then create a new
+tensor with all the 1 dimension removed to be left with a tensor of shape (10).
+Set the seed to 7 when you create it and print out the first tensor, and it's shape
+as well as the second tensor, and it's shape.
+"""
+
 import torch
 
 torch.manual_seed(1234)

@@ -1,3 +1,7 @@
+"""
+Exercise 4: Set the random seed to 0 and do exercises 2 & 3 over again.
+"""
+
 import torch
 
 torch.manual_seed(0)
