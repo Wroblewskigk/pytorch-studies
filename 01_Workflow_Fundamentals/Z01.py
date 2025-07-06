@@ -11,6 +11,7 @@ import torch
 import matplotlib.pyplot as plt
 
 # Set parameters
+# noinspection DuplicatedCode
 weight = 0.3
 bias = 0.9
 num_points = 100
