@@ -86,7 +86,7 @@ plt.title("Model Predictions vs. Data")
 plt.show()
 
 # Save model
-MODEL_PATH = "linear_reg_model_state_dict.pth"
+MODEL_PATH = "workflow_model.pth"
 torch.save(model.state_dict(), MODEL_PATH)
 
 # Load model and move to the same device
