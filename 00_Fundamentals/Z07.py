@@ -1,5 +1,6 @@
 import torch
 
+# noinspection DuplicatedCode
 torch.manual_seed(1234)
 tensor1_seed0 = torch.rand(2, 3)
 tensor2_seed0 = torch.rand(2, 3)
