@@ -2,6 +2,7 @@
 Exercise 7: Turn the MNIST train and test datasets into dataloaders using
 torch.utils.data.DataLoader, set the batch_size=32.
 """
+
 from torch.utils.data import DataLoader
 from torchvision import datasets, transforms
 import matplotlib.pyplot as plt

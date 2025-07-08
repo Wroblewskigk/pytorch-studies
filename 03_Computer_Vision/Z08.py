@@ -3,6 +3,7 @@ Exercise 9: Recreate model_2 used in this notebook (the same model from the
 CNN Explainer website, also known as TinyVGG) capable of fitting on the
 MNIST dataset.
 """
+
 from torch import nn
 from torch.utils.data import DataLoader
 from torchvision import datasets, transforms
