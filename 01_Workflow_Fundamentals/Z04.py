@@ -70,6 +70,7 @@ model.eval()
 with torch.inference_mode():
     predictions = model(X_test).cpu()
 
+# noinspection DuplicatedCode
 plt.scatter(X_train.cpu(), y_train.cpu(), label="Train")
 plt.scatter(X_test.cpu(), y_test.cpu(), label="Test")
 plt.scatter(X_test.cpu(), predictions, label="Predictions", marker="x")
