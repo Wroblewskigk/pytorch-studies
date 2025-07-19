@@ -13,7 +13,7 @@ import argparse
 import torch
 from torchvision import transforms
 from PIL import Image
-from GOINGMODULAR import model_builder
+from Going_Modular import model_builder
 
 # 1. Parse command-line arguments
 parser = argparse.ArgumentParser(description="Predict the class of an input image using a "
