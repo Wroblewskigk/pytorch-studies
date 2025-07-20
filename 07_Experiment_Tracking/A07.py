@@ -64,12 +64,19 @@ def main():
     for config in experiment_configs:
         # Step 3. Initialize wandb at the start of each run
         wandb.init(project="food-vision", config=config,
-                   name=f"{config['architecture']}_lr{config['learning_rate']}_ep{config['epochs']}")
+                   name=f"{config['architecture']}"
+                        f"_ep{config['epochs']}"
+                        f"_lr{config['learning_rate']}"
+                        f"_bs{config['batch_size']}")
+
+        wandb.define_metric("train_loss", step_metric="epoch")
+        wandb.define_metric("train_acc", step_metric="epoch")
+        wandb.define_metric("test_loss", step_metric="epoch")
+        wandb.define_metric("test_acc", step_metric="epoch")
 
         # Step 4. Prepare model weights and transforms
         weights = torchvision.models.EfficientNet_B0_Weights.DEFAULT
         automatic_transforms = weights.transforms()
-        # print(f"Automatically created transforms: {automatic_transforms}")
 
         # Step 5. Create dataloaders
         train_dataloader, test_dataloader, class_names = data_setup.create_dataloaders(
@@ -77,7 +84,7 @@ def main():
             test_dir=test_dir,
             transform=automatic_transforms,
             batch_size=wandb.config.batch_size,
-            num_workers=4,
+            num_workers=0 #os.cpu_count(), but only for BIG datasets
         )
 
         # Step 6. Initialize and customize model
@@ -91,11 +98,6 @@ def main():
 
         # Step 7. Log model structure to wandb
         wandb.watch(model, log="all", log_freq=10)
-
-        # Optionally, get a model summary
-        # summary(model, input_size=(wandb.config.batch_size, 3, 224, 224), verbose=0,
-        #         col_names=["input_size", "output_size", "num_params", "trainable"],
-        #         col_width=20, row_settings=["var_names"])
 
         # Step 8. Define loss function and optimizer
         loss_fn = nn.CrossEntropyLoss()
@@ -114,13 +116,21 @@ def main():
             # If your 'train' function supports callbacks or logger, pass wandb logger here
         )
 
-        # Step 10. Log final training results (history of metrics recommended)
-        for key, value in results.items():
-            if isinstance(value, (list, tuple)):
-                for i, val in enumerate(value):
-                    wandb.log({f"{key}_{i}": val})
-            else:
-                wandb.log({key: value})
+        # Step 10. Log final training results (epoch-wise metrics, with epoch as X axis)
+        max_epochs = max(len(v) for v in results.values() if isinstance(v, (list, tuple)))
+        for epoch in range(max_epochs):
+            log_dict = {
+                "epoch": epoch,
+                "train_loss": results["train_loss"][epoch] if "train_loss" in results and epoch < len(
+                    results["train_loss"]) else None,
+                "train_acc": results["train_acc"][epoch] if "train_acc" in results and epoch < len(
+                    results["train_acc"]) else None,
+                "test_loss": results["test_loss"][epoch] if "test_loss" in results and epoch < len(
+                    results["test_loss"]) else None,
+                "test_acc": results["test_acc"][epoch] if "test_acc" in results and epoch < len(
+                    results["test_acc"]) else None,
+            }
+            wandb.log(log_dict)
 
         # Step 11. Save the trained model and log as artifact/checkpoint
         model_path = f"./models/food-vision_{wandb.run.name}.pth"
